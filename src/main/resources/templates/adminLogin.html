@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-image: url('https://etl.mcdonline.nic.in/(S(z0yyj1xwebfcux0ftnx0rylo))/images/slider/ad-ban1.jpg');
+      background-size: cover;
+      background-position: left;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: 990px
+      
+    }
+    .login-container {
+      width: 300px;
+      padding: 20px;
+      background-color: lightgrey;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-weight: bold;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="password"] {
+      width: calc(100% - 20px);
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+    .form-group input[type="text"]:focus,
+    .form-group input[type="password"]:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+    .login-button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .login-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login</h2>
+    <form action="dash">
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" placeholder="Enter your email">
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password">
+      </div>
+      <button type="submit" class="login-button">Login</button>
+    </form>
+  </div>
+</body>
+</html>

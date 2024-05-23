@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Landing Page</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    .header {
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header .left-buttons,
+    .header .right-buttons {
+      display: flex;
+    }
+    .header button {
+      background-color: transparent;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      font-size: 16px;
+      margin-right: 10px;
+      padding: 5px 10px;
+      transition: background-color 0.3s ease;
+    }
+    .header button:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    .header-title {
+      font-size: 28px;
+      
+    }
+    .background-image {
+      background-image: url('https://schoolmanagementsystem.co.in/img/top-school-management-system.webp');
+      background-size: cover;
+      background-position: center;
+      height: calc(102vh - 120px);
+      position: relative;
+    }
+    .footer {
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      position: fixed;
+      bottom: -20px;
+      width: 100%;
+    }
+    
+    
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="left-buttons">
+      <button onclick="location.href='/al';">Admin</button>
+      <button onclick="location.href='/regstaff';">Staff</button>
+    </div>
+    <div class="header-title">
+      School Management System
+    </div>
+    <div class="right-buttons">
+      <button onclick="location.href='/parentDash';">Parent</button>
+      <button onclick="location.href='/regstudent';">Student</button>
+    </div>
+  </div>
+  <div class="background-image">
+   
+  </div>
+  <div class="footer">
+    &copy; 2024 SchoolManagementSystem
+  </div>
+</body>
+</html>

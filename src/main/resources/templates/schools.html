@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Top Rated Schools</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    header {
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      padding: 1em 0;
+    }
+
+    main {
+      padding: 2em;
+    }
+
+    #filters {
+      margin-bottom: 2em;
+    }
+
+    #filters label, #filters select {
+      font-size: 1.2em;
+    }
+
+    section {
+      margin-bottom: 2em;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      background-color: #f9f9f9;
+      margin: 0.5em 0;
+      padding: 1em;
+      border: 1px solid #ddd;
+    }
+
+    li a {
+      text-decoration: none;
+      color: #333;
+      display: block;
+    }
+
+    li a:hover {
+      background-color: #e0e0e0;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    form label {
+      margin-top: 1em;
+    }
+
+    form input, form textarea, form button {
+      margin-top: 0.5em;
+    }
+
+    form button {
+      align-self: flex-start;
+      background-color: #4CAF50;
+      color: white;
+      padding: 0.5em 1em;
+      border: none;
+      cursor: pointer;
+    }
+
+    form button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Top Rated Schools</h1>
+  </header>
+  <main>
+    <section id="filters">
+      <label for="sort">Sort by: </label>
+      <select id="sort" onchange="sortItems()">
+        <option value="rating">Rating</option>
+        <option value="name">Name</option>
+      </select>
+    </section>
+    <section id="top-rated">
+      <ul id="schools">
+        <!-- Schools will be injected here by JavaScript -->
+      </ul>
+    </section>
+    <section id="enquiry">
+      <h2>Enquiry Form</h2>
+      <form id="enquiry-form" onsubmit="submitForm(event)">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required></textarea>
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+  </main>
+  <script>
+    const schools = [
+      { name: 'The Doon School, Dehradun', rating: 4.9, link: 'https://www.doonschool.com/' },
+      { name: 'Delhi Public School, RK Puram', rating: 4.8, link: 'https://dpsrkp.net/' },
+      { name: 'Bombay Scottish School', rating: 4.7, link: 'https://bombayscottish.in/mahim/home.php' },
+      { name: 'Scindia School, Gwalior', rating: 4.6, link: 'https://www.scindia.edu/' },
+      { name: 'St. John’s High School, Chandigarh', rating: 4.5, link: 'https://www.stjohnschandigarh.com/#home' }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      displayItems('schools', schools);
+    });
+
+    function displayItems(category, items) {
+      const container = document.getElementById(category);
+      container.innerHTML = '';
+      items.forEach(item => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = item.link;
+        a.textContent = `${item.name} - Rating: ${item.rating}`;
+        li.appendChild(a);
+        container.appendChild(li);
+      });
+    }
+
+    function sortItems() {
+      const sortBy = document.getElementById('sort').value;
+      sortAndDisplay(schools, 'schools', sortBy);
+    }
+
+    function sortAndDisplay(items, category, sortBy) {
+      items.sort((a, b) => {
+        if (sortBy === 'rating') {
+          return b.rating - a.rating;
+        } else if (sortBy === 'name') {
+          return a.name.localeCompare(b.name);
+        }
+      });
+      displayItems(category, items);
+    }
+
+    function submitForm(event) {
+      event.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+
+      alert(`Thank you for your enquiry, ${name}! We will respond to you at ${email}.`);
+    }
+  </script>
+</body>
+</html>

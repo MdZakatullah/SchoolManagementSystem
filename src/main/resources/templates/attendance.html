@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendance Details</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .container {
+      width: 80%;
+      margin: 50px auto;
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+    th {
+      background-color: #f2f2f2;
+      color: #333;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    .action-button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin-right: 5px;
+      transition: background-color 0.3s ease;
+    }
+    .action-button:hover {
+      background-color: #45a049;
+    }
+    .delete-button {
+      background-color: #f44336;
+    }
+    .delete-button:hover {
+      background-color: #d32f2f;
+    }
+    .form-container {
+      margin-top: 20px;
+    }
+    .form-container input,
+    .form-container select {
+      display: block;
+      width: calc(100% - 22px);
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+    }
+    .form-container button {
+      display: inline-block;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .form-container button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Attendance Details</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Standard</th>
+          <th>Attendance Status</th>
+          <th>Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="attendance-table-body">
+        <!-- Dynamic rows will be inserted here -->
+      </tbody>
+    </table>
+
+    <div class="form-container" id="edit-form-container" style="display: none;">
+      <h2>Edit Attendance</h2>
+      <form id="edit-attendance-form">
+        <input type="hidden" id="edit-id">
+        <input type="text" id="edit-name" placeholder="Name">
+        <input type="text" id="edit-standard" placeholder="Standard">
+        <select id="edit-status">
+          <option value="Present">Present</option>
+          <option value="Absent">Absent</option>
+        </select>
+        <input type="date" id="edit-date">
+        <button type="submit">Save</button>
+        <button type="button" onclick="hideEditForm()">Cancel</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    async function fetchAttendances() {
+      const response = await fetch('/api/attendances');
+      const attendances = await response.json();
+      const tableBody = document.getElementById('attendance-table-body');
+      tableBody.innerHTML = '';
+      attendances.forEach(attendance => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${attendance.name}</td>
+          <td>${attendance.standard}</td>
+          <td>${attendance.status}</td>
+          <td>${attendance.date}</td>
+          <td>
+            <button class="action-button" onclick="editAttendance(${attendance.id})">Edit</button>
+            <button class="action-button delete-button" onclick="deleteAttendance(${attendance.id})">Delete</button>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    async function editAttendance(id) {
+      const response = await fetch(`/api/attendances/${id}`);
+      const attendance = await response.json();
+      document.getElementById('edit-id').value = attendance.id;
+      document.getElementById('edit-name').value = attendance.name;
+      document.getElementById('edit-standard').value = attendance.standard;
+      document.getElementById('edit-status').value = attendance.status;
+      document.getElementById('edit-date').value = attendance.date;
+      document.getElementById('edit-form-container').style.display = 'block';
+    }
+
+    async function deleteAttendance(id) {
+      await fetch(`/api/attendances/${id}`, { method: 'DELETE' });
+      fetchAttendances();
+    }
+
+    async function saveAttendance(event) {
+      event.preventDefault();
+      const id = document.getElementById('edit-id').value;
+      const name = document.getElementById('edit-name').value;
+      const standard = document.getElementById('edit-standard').value;
+      const status = document.getElementById('edit-status').value;
+      const date = document.getElementById('edit-date').value;
+      const attendance = { id, name, standard, status, date };
+
+      await fetch(`/api/attendances/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(attendance)
+      });
+
+      hideEditForm();
+      fetchAttendances();
+    }
+
+    function hideEditForm() {
+      document.getElementById('edit-form-container').style.display = 'none';
+      document.getElementById('edit-attendance-form').reset();
+    }
+
+    document.getElementById('edit-attendance-form').addEventListener('submit', saveAttendance);
+
+    // Call fetchAttendances when the page loads
+    document.addEventListener('DOMContentLoaded', fetchAttendances);
+  </script>
+</body>
+</html>
